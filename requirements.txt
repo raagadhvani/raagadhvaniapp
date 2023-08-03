@@ -1,0 +1,11 @@
+jenkspy==0.3.2
+librosa==0.10.0.post2
+matplotlib==3.7.1
+midi2audio==0.1.1
+MIDIUtil==1.2.1
+numpy==1.23.5
+pandas==1.5.3
+python_osc==1.8.1
+streamlit==1.21.0
+tensorflow==2.12.0
+tensorflow_intel==2.12.0
