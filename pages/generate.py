@@ -558,14 +558,6 @@
 
 
 
-
-
-
-
-
-
-
-
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -603,7 +595,7 @@ def train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, B
         example_batch_predictions = model(input_example_batch)
 
     adam_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-    model.compile(optimizer=adam_optimizer, loss=loss)
+    model.compile(optimizer=adam_optimizer, loss='sparse_categorical_crossentropy')
 
     checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=checkpoint_prefix,
@@ -669,6 +661,7 @@ def generate_text(model, start_string, num_generate = 20, temperature=0.7):
         text_generated.append(index2char[predicted_id])
 
     return (start_string + ''.join(text_generated))
+
 # Streamlit app code
 import streamlit as st
 
@@ -848,3 +841,11 @@ elif option == 'Bhairavi':
             MyMIDI.writeFile(output_file)
 
         st.markdown(get_binary_file_downloader_html("genbrv"+dt_string+".mid", 'MIDI'), unsafe_allow_html=True)
+
+
+
+
+
+
+
+
