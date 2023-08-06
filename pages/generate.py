@@ -645,8 +645,9 @@ def generate_text(model, start_string, num_generate, temperature, sequence_lengt
 
     # Here batch size == 1.
     model.reset_states()
+    model.build(tf.TensorShape([batch_size, None]))  # Set the correct batch size here
     for char_index in range(num_generate):
-        predictions = model(input_indices)
+        predictions = model(input_indices, training=False)  # Set training=False during inference
         # remove the batch dimension
         predictions = tf.squeeze(predictions, 0)
 
@@ -661,7 +662,6 @@ def generate_text(model, start_string, num_generate, temperature, sequence_lengt
         text_generated.append(index2char[predicted_id])
 
     return (start_string + ''.join(text_generated))
-
 
 
 # Streamlit app code (continuing from where we left off)
