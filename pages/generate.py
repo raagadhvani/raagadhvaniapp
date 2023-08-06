@@ -631,7 +631,7 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
     return model
 
 
-def generate_text(model, start_string, num_generate, temperature, sequence_length,char2index,index2char):
+def generate_text(model, start_string, num_generate, temperature, sequence_length, char2index, index2char, batch_size=1):
     # Evaluation step (generating text using the learned model)
 
     # Converting our start string to numbers (vectorizing).
@@ -659,6 +659,7 @@ def generate_text(model, start_string, num_generate, temperature, sequence_lengt
         text_generated.append(index2char[predicted_id])
 
     return (start_string + ''.join(text_generated))
+
 
 
 # Streamlit app code (continuing from where we left off)
@@ -724,7 +725,7 @@ if option == 'Shankarabharanam':
 
         # Generate the text with default temperature (0.7).
         # def generate_text(model, start_string, num_generate, temperature, sequence_length,char2index,index2char)
-        resultstring = generate_text(model, song, 20,0.7, 239,char2index,index2char)
+        resultstring = generate_text(model, song, 20,0.7, 239,char2index,index2char,5)
 
         rs = str(resultstring)
 
@@ -815,7 +816,7 @@ elif option == 'Bhairavi':
             model = tf.keras.models.load_model("trained_model.h5")
 
         # Generate the text with default temperature (0.7).
-        resultstring = generate_text(model, song, 20,0.7, 213,char2index,index2char)
+        resultstring = generate_text(model, song, 20,0.7, 213,char2index,index2char,5)
         rs = str(resultstring)
 
         ## Printing output
