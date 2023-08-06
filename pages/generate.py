@@ -570,12 +570,14 @@ import os
 
 import os
 import base64
+# Function to get download link for binary files
 def get_binary_file_downloader_html(bin_file, file_label='File'):
     with open(bin_file, 'rb') as f:
         data = f.read()
     bin_str = base64.b64encode(data).decode()
     href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
     return href
+
 
 def train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_dir):
     # Create training dataset.
@@ -629,7 +631,7 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
     return model
 
 
-def generate_text(model, start_string, num_generate=20, temperature=0.7, sequence_length=239):
+def generate_text(model, start_string, num_generate=20, temperature=0.7, sequence_length=239,char2index,index2char):
     # Evaluation step (generating text using the learned model)
 
     # Converting our start string to numbers (vectorizing).
@@ -715,7 +717,7 @@ if option == 'Shankarabharanam':
             model = tf.keras.models.load_model("trained_model.h5")
 
         # Generate the text with default temperature (0.7).
-        resultstring = generate_text(model, start_string=song, temperature=0.7, sequence_length=20)
+        resultstring = generate_text(model, start_string=song, temperature=0.7, sequence_length=20,char2index,index2char)
 
         rs = str(resultstring)
 
@@ -800,7 +802,7 @@ elif option == 'Bhairavi':
             model = tf.keras.models.load_model("trained_model.h5")
 
         # Generate the text with default temperature (0.7).
-        resultstring = generate_text(model, start_string=song, temperature=0.7, sequence_length=20)
+        resultstring = generate_text(model, start_string=song, temperature=0.7, sequence_length=20,char2index,index2char)
         rs = str(resultstring)
 
         ## Printing output
