@@ -709,7 +709,7 @@ if option == 'Shankarabharanam':
             EPOCHS = 40
             checkpoint_dir = 'tmp/checkpoints'
             os.makedirs(checkpoint_dir, exist_ok=True)
-            sequence_length = 20  # Adjust this accordingly
+            sequence_length = 239  # Adjust this accordingly
 
             # Define checkpoint file path
             checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
@@ -724,7 +724,7 @@ if option == 'Shankarabharanam':
 
         # Generate the text with default temperature (0.7).
         # def generate_text(model, start_string, num_generate, temperature, sequence_length,char2index,index2char)
-        resultstring = generate_text(model, song, 20,0.7, 20,char2index,index2char)
+        resultstring = generate_text(model, song, 20,0.7, 239,char2index,index2char)
 
         rs = str(resultstring)
 
@@ -801,7 +801,7 @@ elif option == 'Bhairavi':
             EPOCHS = 40
             checkpoint_dir = 'tmp/checkpoints'
             os.makedirs(checkpoint_dir, exist_ok=True)
-            sequence_length = 20  # Adjust this accordingly
+            sequence_length = 213  # Adjust this accordingly
 
             # Define checkpoint file path
             checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
@@ -815,7 +815,7 @@ elif option == 'Bhairavi':
             model = tf.keras.models.load_model("trained_model.h5")
 
         # Generate the text with default temperature (0.7).
-        resultstring = generate_text(model, song, 20,0.7, 20,char2index,index2char)
+        resultstring = generate_text(model, song, 20,0.7, 213,char2index,index2char)
         rs = str(resultstring)
 
         ## Printing output
