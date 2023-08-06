@@ -687,6 +687,12 @@ if option == 'Shankarabharanam':
     # Upon clicking button
     if st.button(label="Generate Music", key="Generate Music"):
         # Load or train the model if it doesn't exist
+        dataset_file_path = 'skbpallavi.txt'
+        text = open(dataset_file_path, mode='r').read()
+        vocab = sorted(set(text))
+        char2index = {char: index for index, char in enumerate(vocab)}
+        index2char = np.array(vocab)
+        text_as_int = np.array([char2index[char] for char in text])
         if not os.path.exists("trained_model.h5"):
             dataset_file_path = 'skbpallavi.txt'
             text = open(dataset_file_path, mode='r').read()
@@ -773,6 +779,12 @@ elif option == 'Bhairavi':
     # Upon clicking button
     if st.button(label="Generate Music", key="Generate Music"):
         # Load or train the model if it doesn't exist
+        dataset_file_path = 'bhpallavi.txt'
+        text = open(dataset_file_path, mode='r').read()
+        vocab = sorted(set(text))
+        char2index = {char: index for index, char in enumerate(vocab)}
+        index2char = np.array(vocab)
+        text_as_int = np.array([char2index[char] for char in text])
         if not os.path.exists("trained_model.h5"):
             dataset_file_path = 'bhpallavi.txt'
             text = open(dataset_file_path, mode='r').read()
