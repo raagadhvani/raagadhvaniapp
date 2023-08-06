@@ -580,6 +580,7 @@ def get_binary_file_downloader_html(bin_file, file_label='File'):
 
 
 def train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_dir):
+    BATCH_SIZE=5
     # Create training dataset.
     char_dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
     # Generate batched sequences out of the char_dataset.
