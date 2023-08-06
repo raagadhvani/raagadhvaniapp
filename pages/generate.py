@@ -662,7 +662,7 @@ def generate_text(model, start_string, num_generate = 20, temperature=0.7):
 
     return (start_string + ''.join(text_generated))
 
-# Streamlit app code
+# Streamlit app code (continuing from where we left off)
 import streamlit as st
 
 # Title of page
@@ -706,7 +706,10 @@ if option == 'Shankarabharanam':
             os.makedirs(checkpoint_dir, exist_ok=True)
             sequence_length = 239  # Adjust this accordingly
 
-            train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_dir)
+            # Define checkpoint file path
+            checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
+
+            train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_prefix)
             model = build_model(vocab_size, embedding_dim, rnn_units, BATCH_SIZE)
             model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
             model.build(tf.TensorShape([1, None]))
@@ -787,7 +790,10 @@ elif option == 'Bhairavi':
             os.makedirs(checkpoint_dir, exist_ok=True)
             sequence_length = 213  # Adjust this accordingly
 
-            train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_dir)
+            # Define checkpoint file path
+            checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
+
+            train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_prefix)
             model = build_model(vocab_size, embedding_dim, rnn_units, BATCH_SIZE)
             model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
             model.build(tf.TensorShape([1, None]))
@@ -805,47 +811,7 @@ elif option == 'Bhairavi':
         rs = rs.replace(' ', '').replace('\n', '')
 
         notes = {'s': 49, 'r': 50, 'R': 62, 'g': 51, 'G': 63, 'm': 54, 'M': 66, 'p': 56, 'P': 68, 'd': 57, 'D': 69, 'n': 58, 'N': 70, 'S': 61}
-        import time
-
-        # Send data to max
-        from pythonosc.udp_client import SimpleUDPClient
-        #!pip install MIDIUtil
-        from midiutil import MIDIFile
-
-        track = 0
-        channel = 3
-        time = 0   # In beats
-        duration = 0.5  # In beats, time for which note is played
-        tempo = 80  # In BPM
-        volume = 120
-        final_notes = []
-        for i in range(len(rs)):
-            final_notes.append(notes[rs[i]])
-        MyMIDI = MIDIFile(1)  # single track
-        MyMIDI.addTempo(track, time, tempo)
-
-        for pitch in final_notes:
-            MyMIDI.addNote(track, channel, pitch, time, duration, volume)
-            time = duration + time + 0.75
-
-        from datetime import datetime
-
-        # datetime object containing current date and time
-        now = datetime.now()
-
-        # dd/mm/YY H:M:S
-        dt_string = now.strftime("%Y%m%d-%H%M%S")
-
-        # Output as MIDI file
-        with open("genbrv"+dt_string+".mid", "wb") as output_file:
-            MyMIDI.writeFile(output_file)
-
-        st.markdown(get_binary_file_downloader_html("genbrv"+dt_string+".mid", 'MIDI'), unsafe_allow_html=True)
-
-
-
-
-
+       
 
 
 
