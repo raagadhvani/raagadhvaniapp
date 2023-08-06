@@ -580,7 +580,7 @@ def get_binary_file_downloader_html(bin_file, file_label='File'):
 
 
 def train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_dir):
-    BATCH_SIZE=5
+    # BATCH_SIZE=5
     # Create training dataset.
     char_dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
     # Generate batched sequences out of the char_dataset.
@@ -617,7 +617,7 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
     model.add(tf.keras.layers.Embedding(
         input_dim=vocab_size,
         output_dim=embedding_dim,
-        batch_input_shape=[batch_size, None]
+        batch_input_shape=[batch_size, None]  # Set batch size explicitly here
     ))
 
     model.add(tf.keras.layers.LSTM(
@@ -630,6 +630,7 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
     model.add(tf.keras.layers.Dense(vocab_size))
     
     return model
+
 
 
 def generate_text(model, start_string, num_generate, temperature, sequence_length, char2index, index2char, batch_size=1):
@@ -707,6 +708,9 @@ if option == 'Shankarabharanam':
             embedding_dim = 256
             rnn_units = 1024
             BATCH_SIZE = 5
+            
+
+            
             BUFFER_SIZE = 5
             EPOCHS = 40
             checkpoint_dir = 'tmp/checkpoints'
@@ -717,10 +721,11 @@ if option == 'Shankarabharanam':
             checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
 
             train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_prefix)
+      
+            # After training, rebuild the model with the correct batch size
             model = build_model(vocab_size, embedding_dim, rnn_units, BATCH_SIZE)
             model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
-            model.build(tf.TensorShape([1, None]))
-            model.save("trained_model.h5")
+            model.build(tf.TensorShape([BATCH_SIZE, None]))  # Set the correct batch size here
         else:
             model = tf.keras.models.load_model("trained_model.h5")
 
@@ -809,9 +814,11 @@ elif option == 'Bhairavi':
             checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
 
             train_model(text_as_int, vocab_size, embedding_dim, rnn_units, BATCH_SIZE, BUFFER_SIZE, EPOCHS, checkpoint_prefix)
+      
+            # After training, rebuild the model with the correct batch size
             model = build_model(vocab_size, embedding_dim, rnn_units, BATCH_SIZE)
             model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
-            model.build(tf.TensorShape([1, None]))
+            model.build(tf.TensorShape([BATCH_SIZE, None]))  # Set the correct batch size here
             model.save("trained_model.h5")
         else:
             model = tf.keras.models.load_model("trained_model.h5")
