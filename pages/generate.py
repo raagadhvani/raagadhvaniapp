@@ -631,7 +631,7 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
     return model
 
 
-def generate_text(model, start_string, num_generate=20, temperature=0.7, sequence_length=239,char2index,index2char):
+def generate_text(model, start_string, num_generate, temperature, sequence_length,char2index,index2char):
     # Evaluation step (generating text using the learned model)
 
     # Converting our start string to numbers (vectorizing).
