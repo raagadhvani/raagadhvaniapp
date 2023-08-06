@@ -629,8 +629,7 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
     return model
 
 
-##changing batch size to 100 from 239
-def generate_text(model, start_string, num_generate = 20, temperature=0.7):
+def generate_text(model, start_string, num_generate=20, temperature=0.7, sequence_length=239):
     # Evaluation step (generating text using the learned model)
 
     # Converting our start string to numbers (vectorizing).
@@ -649,10 +648,7 @@ def generate_text(model, start_string, num_generate = 20, temperature=0.7):
 
         # Using a categorical distribution to predict the character returned by the model.
         predictions = predictions / temperature
-        predicted_id = tf.random.categorical(
-        predictions,
-        num_samples=1
-        )[-1,0].numpy()
+        predicted_id = tf.random.categorical(predictions, num_samples=1)[-1, 0].numpy()
 
         # We pass the predicted character as the next input to the model
         # along with the previous hidden state.
@@ -661,6 +657,7 @@ def generate_text(model, start_string, num_generate = 20, temperature=0.7):
         text_generated.append(index2char[predicted_id])
 
     return (start_string + ''.join(text_generated))
+
 
 # Streamlit app code (continuing from where we left off)
 import streamlit as st
@@ -718,7 +715,8 @@ if option == 'Shankarabharanam':
             model = tf.keras.models.load_model("trained_model.h5")
 
         # Generate the text with default temperature (0.7).
-        resultstring = generate_text(model, start_string=song, temperature=0.1)
+        resultstring = generate_text(model, start_string=song, temperature=0.7, sequence_length=20)
+
         rs = str(resultstring)
 
         ## Printing output
@@ -802,7 +800,7 @@ elif option == 'Bhairavi':
             model = tf.keras.models.load_model("trained_model.h5")
 
         # Generate the text with default temperature (0.7).
-        resultstring = generate_text(model, start_string=song, temperature=0.1)
+        resultstring = generate_text(model, start_string=song, temperature=0.7, sequence_length=20)
         rs = str(resultstring)
 
         ## Printing output
