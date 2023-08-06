@@ -210,7 +210,8 @@ if option=='Shankarabharanam':
         # - Low temperatures results in more predictable text.
         # - Higher temperatures results in more surprising text.
         # - Experiment to find the best setting.
-        def generate_text(model, start_string, num_generate = 239, temperature=1.0):
+        # changed num_generate from 239 to 20 and temp from 1.0 to 0.7
+        def generate_text(model, start_string, num_generate = 20, temperature=0.7):
             # Evaluation step (generating text using the learned model)
 
             # Converting our start string to numbers (vectorizing).
@@ -465,7 +466,8 @@ elif option=='Bhairavi':
         # - Low temperatures results in more predictable text.
         # - Higher temperatures results in more surprising text.
         # - Experiment to find the best setting.
-        def generate_text(model, start_string, num_generate = 213, temperature=1.0):
+        # changed from 213 to 20 and 1.0 to 0.7
+        def generate_text(model, start_string, num_generate = 20, temperature=0.7):
             # Evaluation step (generating text using the learned model)
 
             # Converting our start string to numbers (vectorizing).
